@@ -2,16 +2,16 @@ package com.damian.megacity.repo;
 
 import com.damian.megacity.dto.UserDTO;
 import com.damian.megacity.util.FactoryConfiguration;
+import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
 
-import javax.inject.Inject;
 import java.util.List;
 
-
+@Log
 public class UserRepo implements DAOService<UserDTO> {
     private final FactoryConfiguration factoryConfiguration = FactoryConfiguration.getFactoryConfiguration();
-    @Inject
-    private ModelMapper modelMapper;
+
+    private final ModelMapper modelMapper = new ModelMapper();
 
     @Override
     public UserDTO add(UserDTO userDTO) {
