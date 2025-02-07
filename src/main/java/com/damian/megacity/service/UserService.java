@@ -1,8 +1,10 @@
-package com.damian.megacity.repo;
+package com.damian.megacity.service;
+
+import com.damian.megacity.dto.UserDTO;
 
 import java.util.List;
 
-public interface DAOService<T> {
+public interface UserService<T extends UserDTO> {
     T add(T t);
 
     T update(T t);

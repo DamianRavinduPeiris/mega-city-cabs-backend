@@ -1,5 +1,6 @@
 package com.damian.megacity.util.filters;
 
+import com.damian.megacity.exceptions.UserException;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,12 +40,32 @@ public class Filter implements jakarta.servlet.Filter {
         httpServletResponse.setHeader(ALLOW_METHODS, METHODS);
         httpServletResponse.setHeader(ALLOW_HEADERS, CONTENT_TYPE);
         httpServletResponse.setHeader(EXPOSE_HEADERS, CONTENT_TYPE);
-
-        filterChain.doFilter(servletRequest, servletResponse);
+        try {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } catch (Exception e) {
+            handleException(e, httpServletResponse);
+        }
     }
 
     @Override
     public void destroy() {
         log.info("destroy() invoked!");
+    }
+
+    private void handleException(Exception e, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+
+        var message = switch (e) {
+            case UserException ex -> {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                yield "An Exception Occurred in the User Service: " + ex.getMessage();
+            }
+            default -> {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                yield "Internal Server Error";
+            }
+        };
+
+        response.getWriter().println("{\"error\": \"" + message + "\"}");
     }
 }

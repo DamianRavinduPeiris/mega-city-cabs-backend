@@ -1,6 +1,5 @@
 package com.damian.megacity.util;
 
-import lombok.Getter;
 import lombok.extern.java.Log;
 
 import java.sql.Connection;
@@ -8,12 +7,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
-@Getter
 @Log
 public class FactoryConfiguration {
-    private static final String URL = "jdbc:mysql://localhost:3306/your_database";
-    private static final String USER = "admin";
-    private static final String PASSWORD = "admin";
+    private static final String URL = "jdbc:mysql://localhost:3306/megacity";
+    private static final String USER = "root";
+    private static final String PASSWORD = "1234";
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static FactoryConfiguration factoryConfiguration;
     private Connection connection;
@@ -32,5 +30,16 @@ public class FactoryConfiguration {
             factoryConfiguration = new FactoryConfiguration();
         }
         return factoryConfiguration;
+    }
+
+    public Connection getConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            }
+        } catch (SQLException e) {
+            log.warning("Failed to reopen database connection: " + e.getMessage());
+        }
+        return connection;
     }
 }
