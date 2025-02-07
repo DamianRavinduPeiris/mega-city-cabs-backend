@@ -1,14 +1,15 @@
 package com.damian.megacity.repo;
 
 import com.damian.megacity.dto.UserDTO;
-import com.damian.megacity.exceptions.UserAlreadyExistsException;
-import com.damian.megacity.exceptions.UserNotFoundException;
+import com.damian.megacity.exceptions.UserException;
 import com.damian.megacity.util.FactoryConfiguration;
 import lombok.extern.java.Log;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.damian.megacity.service.impl.constants.UserConstants.USER_NOT_FOUND;
 
 @Log
 public class UserRepo implements DAOService<UserDTO> {
@@ -30,7 +31,7 @@ public class UserRepo implements DAOService<UserDTO> {
 
         } catch (SQLException e) {
             log.warning("An error occurred while adding a user: " + e.getMessage());
-            throw new UserAlreadyExistsException("User already exists!");
+            throw new UserException("User already exists!");
         }
         return userDTO;
     }
@@ -53,34 +54,35 @@ public class UserRepo implements DAOService<UserDTO> {
                 return userDTO;
             } else {
                 log.warning("User with userId " + userDTO.userId() + " not found.");
-                throw new UserNotFoundException("User not found!");
+                throw new UserException(USER_NOT_FOUND);
             }
 
         } catch (SQLException e) {
             log.warning("An error occurred while updating the user: " + e.getMessage());
-            return null;
+            throw new UserException("An error occurred while updating the user. ");
         }
     }
 
     @Override
-    public void delete(UserDTO userDTO) {
+    public void delete(String userId) {
         var query = "DELETE FROM User WHERE userId = ?";
 
         try (var connection = FactoryConfiguration.getFactoryConfiguration().getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setString(1, userDTO.userId());
+            preparedStatement.setString(1, userId);
 
             var rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
-                log.info("User with userId " + userDTO.userId() + " deleted successfully.");
+                log.info("User with userId " + userId + " deleted successfully.");
             } else {
-                log.warning("User with userId " + userDTO.userId() + " not found.");
-                throw new UserNotFoundException("User not found!");
+                log.warning("User with userId " + userId + " not found.");
+                throw new UserException(USER_NOT_FOUND);
             }
 
         } catch (SQLException e) {
             log.warning("An error occurred while deleting the user: " + e.getMessage());
+            throw new UserException("An error occurred while deleting the user.");
         }
     }
 
@@ -94,6 +96,8 @@ public class UserRepo implements DAOService<UserDTO> {
 
             preparedStatement.setString(1, id);
 
+            log.info("Executing query: " + query + " with userId: " + id);
+
             try (var resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     user = new UserDTO(
@@ -104,12 +108,13 @@ public class UserRepo implements DAOService<UserDTO> {
                     );
                 } else {
                     log.warning("User with userId " + id + " not found.");
-                    throw new UserNotFoundException("User not found!");
+                    throw new UserException(USER_NOT_FOUND);
                 }
             }
 
         } catch (SQLException e) {
             log.warning("An error occurred while searching for the user: " + e.getMessage());
+            throw new UserException("An error occurred while searching for the user.");
         }
 
         return user;
@@ -118,7 +123,7 @@ public class UserRepo implements DAOService<UserDTO> {
     @Override
     public List<UserDTO> getAll() {
         var query = "SELECT userId, name, email, profilePicture FROM User";
-        List<UserDTO> users = new ArrayList<>();
+        var users = new ArrayList<UserDTO>();
 
         try (var connection = FactoryConfiguration.getFactoryConfiguration().getConnection();
              var preparedStatement = connection.prepareStatement(query);
@@ -135,6 +140,7 @@ public class UserRepo implements DAOService<UserDTO> {
 
         } catch (SQLException e) {
             log.warning("An error occurred while retrieving all users: " + e.getMessage());
+            throw new UserException("An error occurred while retrieving all users.");
         }
 
         return users;

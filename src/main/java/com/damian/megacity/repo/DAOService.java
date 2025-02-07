@@ -7,7 +7,7 @@ public interface DAOService<T> {
 
     T update(T t);
 
-    void delete(T t);
+    void delete(String id);
 
     T search(String id);
 

@@ -17,21 +17,21 @@ public class UserServiceImpl implements UserService<UserDTO> {
 
     @Override
     public UserDTO update(UserDTO userDTO) {
-        return null;
+        return userRepo.update(userDTO);
     }
 
     @Override
-    public void delete(UserDTO userDTO) {
-
+    public void delete(String userId) {
+        userRepo.delete(userId);
     }
 
     @Override
-    public UserDTO search(String id) {
-        return null;
+    public UserDTO search(String userId) {
+        return userRepo.search(userId);
     }
 
     @Override
     public List<UserDTO> getAll() {
-        return List.of();
+        return userRepo.getAll();
     }
 }

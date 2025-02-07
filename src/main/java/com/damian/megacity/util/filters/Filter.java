@@ -1,7 +1,6 @@
 package com.damian.megacity.util.filters;
 
-import com.damian.megacity.exceptions.UserAlreadyExistsException;
-import com.damian.megacity.exceptions.UserNotFoundException;
+import com.damian.megacity.exceptions.UserException;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,13 +56,9 @@ public class Filter implements jakarta.servlet.Filter {
         response.setContentType("application/json");
 
         var message = switch (e) {
-            case UserAlreadyExistsException ex -> {
-                response.setStatus(HttpServletResponse.SC_CONFLICT);
-                yield "Bad Request : " + ex.getMessage();
-            }
-            case UserNotFoundException ex -> {
+            case UserException ex -> {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                yield "User Not Found : " + ex.getMessage();
+                yield "An Exception Occurred in the User Service: " + ex.getMessage();
             }
             default -> {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

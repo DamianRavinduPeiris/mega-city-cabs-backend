@@ -4,12 +4,12 @@ import com.damian.megacity.dto.UserDTO;
 
 import java.util.List;
 
-public interface UserService <T extends UserDTO>{
+public interface UserService<T extends UserDTO> {
     T add(T t);
 
     T update(T t);
 
-    void delete(T t);
+    void delete(String id);
 
     T search(String id);
 
