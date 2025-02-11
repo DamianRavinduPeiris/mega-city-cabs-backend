@@ -26,8 +26,8 @@ public class UserServiceImpl implements UserService<UserDTO> {
     }
 
     @Override
-    public UserDTO search(String userId) {
-        return userRepo.search(userId);
+    public UserDTO search(String userIdOrEmail) {
+        return userRepo.search(userIdOrEmail);
     }
 
     @Override

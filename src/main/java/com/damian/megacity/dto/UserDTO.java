@@ -6,5 +6,5 @@ public record UserDTO(
         String userId,
         String name,
         String email,
-        String profilePicture) implements Serializable {
+        String picture) implements Serializable {
 }
