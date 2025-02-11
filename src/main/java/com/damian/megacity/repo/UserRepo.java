@@ -16,7 +16,7 @@ public class UserRepo implements DAOService<UserDTO> {
 
     @Override
     public UserDTO add(UserDTO userDTO) {
-        var query = "INSERT INTO User (userId, name, email, profilePicture) VALUES (?, ?, ?, ?)";
+        var query = "INSERT INTO User (userId, name, email, picture) VALUES (?, ?, ?, ?)";
 
         try (var connection = FactoryConfiguration.getFactoryConfiguration().getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
@@ -24,7 +24,7 @@ public class UserRepo implements DAOService<UserDTO> {
             preparedStatement.setString(1, userDTO.userId());
             preparedStatement.setString(2, userDTO.name());
             preparedStatement.setString(3, userDTO.email());
-            preparedStatement.setString(4, userDTO.profilePicture());
+            preparedStatement.setString(4, userDTO.picture());
 
             var rowsAffected = preparedStatement.executeUpdate();
             log.info(rowsAffected + " row(s) inserted.");
@@ -38,14 +38,14 @@ public class UserRepo implements DAOService<UserDTO> {
 
     @Override
     public UserDTO update(UserDTO userDTO) {
-        var query = "UPDATE User SET name = ?, email = ?, profilePicture = ? WHERE userId = ?";
+        var query = "UPDATE User SET name = ?, email = ?, picture = ? WHERE userId = ?";
 
         try (var connection = FactoryConfiguration.getFactoryConfiguration().getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, userDTO.name());
             preparedStatement.setString(2, userDTO.email());
-            preparedStatement.setString(3, userDTO.profilePicture());
+            preparedStatement.setString(3, userDTO.picture());
             preparedStatement.setString(4, userDTO.userId());
 
             var rowsAffected = preparedStatement.executeUpdate();
@@ -87,16 +87,17 @@ public class UserRepo implements DAOService<UserDTO> {
     }
 
     @Override
-    public UserDTO search(String id) {
-        var query = "SELECT userId, name, email, profilePicture FROM User WHERE userId = ?";
+    public UserDTO search(String idOrEmail) {
+        var query = "SELECT userId, name, email, picture FROM User WHERE userId = ? OR email = ?";
         UserDTO user = null;
 
         try (var connection = FactoryConfiguration.getFactoryConfiguration().getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setString(1, id);
+            preparedStatement.setString(1, idOrEmail);
+            preparedStatement.setString(2, idOrEmail);
 
-            log.info("Executing query: " + query + " with userId: " + id);
+            log.info("Executing query: " + query + " with parameter: " + idOrEmail);
 
             try (var resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -104,10 +105,10 @@ public class UserRepo implements DAOService<UserDTO> {
                             resultSet.getString("userId"),
                             resultSet.getString("name"),
                             resultSet.getString("email"),
-                            resultSet.getString("profilePicture")
+                            resultSet.getString("picture")
                     );
                 } else {
-                    log.warning("User with userId " + id + " not found.");
+                    log.warning("User with userId or email " + idOrEmail + " not found.");
                     throw new UserException(USER_NOT_FOUND);
                 }
             }
@@ -122,7 +123,7 @@ public class UserRepo implements DAOService<UserDTO> {
 
     @Override
     public List<UserDTO> getAll() {
-        var query = "SELECT userId, name, email, profilePicture FROM User";
+        var query = "SELECT userId, name, email, picture FROM User";
         var users = new ArrayList<UserDTO>();
 
         try (var connection = FactoryConfiguration.getFactoryConfiguration().getConnection();
@@ -134,7 +135,7 @@ public class UserRepo implements DAOService<UserDTO> {
                         resultSet.getString("userId"),
                         resultSet.getString("name"),
                         resultSet.getString("email"),
-                        resultSet.getString("profilePicture")
+                        resultSet.getString("picture")
                 ));
             }
 

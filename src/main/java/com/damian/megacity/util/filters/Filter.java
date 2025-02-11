@@ -1,9 +1,10 @@
 package com.damian.megacity.util.filters;
 
 import com.damian.megacity.exceptions.UserException;
+import com.damian.megacity.response.Response;
+import com.google.gson.Gson;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.java.Log;
 
@@ -19,6 +20,7 @@ public class Filter implements jakarta.servlet.Filter {
     private static final String METHODS = "GET, PUT, POST, DELETE";
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String ANY_ORIGIN = "*";
+    private final Gson gson = new Gson();
 
     public Filter() {
         log.info("Initializing the Filter...");
@@ -30,10 +32,9 @@ public class Filter implements jakarta.servlet.Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException {
         log.info("doFilter() invoked!");
 
-        var httpServletRequest = (HttpServletRequest) servletRequest;
         var httpServletResponse = (HttpServletResponse) servletResponse;
 
         httpServletResponse.setHeader(ALLOW_ORIGIN, ANY_ORIGIN);
@@ -66,6 +67,14 @@ public class Filter implements jakarta.servlet.Filter {
             }
         };
 
-        response.getWriter().println("{\"error\": \"" + message + "\"}");
+        response.getWriter().println(gson.toJson(createAndBuildResponse(response.getStatus(), message, null)));
+    }
+
+    public Response createAndBuildResponse(int status, String msg, Object data) {
+        return Response.builder()
+                .status(status)
+                .message(msg)
+                .data(data)
+                .build();
     }
 }
