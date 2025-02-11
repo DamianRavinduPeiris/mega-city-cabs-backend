@@ -3,6 +3,7 @@ package com.damian.megacity.repo;
 import com.damian.megacity.dto.UserDTO;
 import com.damian.megacity.exceptions.UserException;
 import com.damian.megacity.util.FactoryConfiguration;
+import com.damian.megacity.util.filters.mappers.Mapper;
 import lombok.extern.java.Log;
 
 import java.sql.*;
@@ -12,19 +13,20 @@ import java.util.List;
 import static com.damian.megacity.service.impl.constants.UserConstants.USER_NOT_FOUND;
 
 @Log
-public class UserRepo implements DAOService<UserDTO> {
+public class UserRepo implements UserDAOService{
 
     @Override
     public UserDTO add(UserDTO userDTO) {
+        var user = Mapper.toUser(userDTO);
         var query = "INSERT INTO User (userId, name, email, picture) VALUES (?, ?, ?, ?)";
 
         try (var connection = FactoryConfiguration.getFactoryConfiguration().getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setString(1, userDTO.userId());
-            preparedStatement.setString(2, userDTO.name());
-            preparedStatement.setString(3, userDTO.email());
-            preparedStatement.setString(4, userDTO.picture());
+            preparedStatement.setString(1, user.getUserId());
+            preparedStatement.setString(2, user.getName());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getProfilePicture());
 
             var rowsAffected = preparedStatement.executeUpdate();
             log.info(rowsAffected + " row(s) inserted.");
@@ -38,22 +40,23 @@ public class UserRepo implements DAOService<UserDTO> {
 
     @Override
     public UserDTO update(UserDTO userDTO) {
+        var user = Mapper.toUser(userDTO);
         var query = "UPDATE User SET name = ?, email = ?, picture = ? WHERE userId = ?";
 
         try (var connection = FactoryConfiguration.getFactoryConfiguration().getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setString(1, userDTO.name());
-            preparedStatement.setString(2, userDTO.email());
-            preparedStatement.setString(3, userDTO.picture());
-            preparedStatement.setString(4, userDTO.userId());
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(3, user.getProfilePicture());
+            preparedStatement.setString(4, user.getUserId());
 
             var rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
-                log.info("User with userId " + userDTO.userId() + " updated successfully.");
+                log.info("User with userId " + user.getUserId() + " updated successfully.");
                 return userDTO;
             } else {
-                log.warning("User with userId " + userDTO.userId() + " not found.");
+                log.warning("User with userId " + user.getUserId() + " not found.");
                 throw new UserException(USER_NOT_FOUND);
             }
 

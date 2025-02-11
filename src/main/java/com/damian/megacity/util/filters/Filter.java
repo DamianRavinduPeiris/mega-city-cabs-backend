@@ -1,5 +1,6 @@
 package com.damian.megacity.util.filters;
 
+import com.damian.megacity.exceptions.DriverException;
 import com.damian.megacity.exceptions.UserException;
 import com.damian.megacity.response.Response;
 import com.google.gson.Gson;
@@ -59,7 +60,11 @@ public class Filter implements jakarta.servlet.Filter {
         var message = switch (e) {
             case UserException ex -> {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                yield "An Exception Occurred in the User Service: " + ex.getMessage();
+                yield "An Exception Occurred in the User Service : " + ex.getMessage();
+            }
+            case DriverException ex -> {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                yield "An Exception Occurred in the Driver Service : " + ex.getMessage();
             }
             default -> {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

@@ -7,7 +7,7 @@ import com.damian.megacity.service.UserService;
 
 import java.util.List;
 
-public class UserServiceImpl implements UserService<UserDTO> {
+public class UserServiceImpl implements UserService {
     private final DAOService<UserDTO> userRepo = new UserRepo();
 
     @Override

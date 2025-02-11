@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class User {
-    private String userId;
-    private String name;
-    private String email;
-    private String profilePicture;
+public class Driver {
+    private String driverId;
+    private String driverName;
+    private String driverPhone;
+    private String driverEmail;
 }

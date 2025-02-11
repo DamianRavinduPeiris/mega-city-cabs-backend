@@ -3,70 +3,70 @@ package com.damian.megacity.controller;
 import java.io.*;
 import java.util.stream.Collectors;
 
-import com.damian.megacity.dto.UserDTO;
+import com.damian.megacity.dto.DriverDTO;
 import com.damian.megacity.response.Response;
 import com.damian.megacity.service.CabService;
-import com.damian.megacity.service.impl.UserServiceImpl;
+import com.damian.megacity.service.impl.DriverServiceImpl;
 import com.google.gson.Gson;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import lombok.extern.java.Log;
 
-import static com.damian.megacity.service.impl.constants.UserConstants.*;
+import static com.damian.megacity.service.impl.constants.DriverConstants.*;
 
 
-@WebServlet(name = USER_CONTROLLER, value = USER_ENDPOINT)
+@WebServlet(name = DRIVER_CONTROLLER, value = DRIVER_ENDPOINT)
 @Log
-public class UserController extends HttpServlet {
+public class DriverController extends HttpServlet {
     private final Gson gson = new Gson();
-    private final CabService<UserDTO> userService = new UserServiceImpl();
+    private final CabService<DriverDTO> driverService = new DriverServiceImpl();
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        var user = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), UserDTO.class);
+        var driver = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), DriverDTO.class);
 
         response.getWriter().println(gson.toJson(createAndBuildResponse(
                 HttpServletResponse.SC_CREATED,
-                USER_CREATED,
-                userService.add(user))));
+                DRIVER_CREATED,
+                driverService.add(driver))));
     }
 
     @Override
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        var user = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), UserDTO.class);
+        var driver = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), DriverDTO.class);
 
         response.getWriter().println(gson.toJson(createAndBuildResponse(
                 HttpServletResponse.SC_CREATED,
-                USER_UPDATED,
-                userService.update(user))));
+                DRIVER_UPDATED,
+                driverService.update(driver))));
     }
 
     @Override
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        var userId = request.getParameter(USER_ID);
-        if (userId != null) {
-            userService.delete(userId);
+        var driverId = request.getParameter(DRIVER_ID);
+        if (driverId != null) {
+            driverService.delete(driverId);
         }
         response.getWriter().println(gson.toJson(createAndBuildResponse(
                 HttpServletResponse.SC_NO_CONTENT,
-                USER_DELETED,
+                DRIVER_DELETED,
                 null)));
     }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        var userId = request.getParameter(USER_ID);
+        var driverId = request.getParameter(DRIVER_ID);
 
-        if (userId != null) {
+        if (driverId != null) {
             response.getWriter().println(gson.toJson(createAndBuildResponse(
                     HttpServletResponse.SC_OK,
-                    USER_RETRIEVED,
-                    userService.search(userId))));
+                    DRIVER_RETRIEVED,
+                    driverService.search(driverId))));
         } else {
             response.getWriter().println(gson.toJson(createAndBuildResponse(
                     HttpServletResponse.SC_OK,
-                    ALL_USERS_RETRIEVED,
-                    userService.getAll())));
+                    ALL_DRIVERS_RETRIEVED,
+                    driverService.getAll())));
         }
     }
 
