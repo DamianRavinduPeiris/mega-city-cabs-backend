@@ -20,6 +20,7 @@ public class Filter implements jakarta.servlet.Filter {
     private static final String METHODS = "GET, PUT, POST, DELETE";
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String ANY_ORIGIN = "*";
+    private static final String APPLICATION_JSON = "application/json";
     private final Gson gson = new Gson();
 
     public Filter() {
@@ -41,6 +42,7 @@ public class Filter implements jakarta.servlet.Filter {
         httpServletResponse.setHeader(ALLOW_METHODS, METHODS);
         httpServletResponse.setHeader(ALLOW_HEADERS, CONTENT_TYPE);
         httpServletResponse.setHeader(EXPOSE_HEADERS, CONTENT_TYPE);
+        httpServletResponse.setHeader(CONTENT_TYPE, APPLICATION_JSON);
         try {
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (Exception e) {
@@ -54,7 +56,7 @@ public class Filter implements jakarta.servlet.Filter {
     }
 
     private void handleException(Exception e, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
+        response.setContentType(APPLICATION_JSON);
 
         var message = switch (e) {
             case UserException ex -> {
