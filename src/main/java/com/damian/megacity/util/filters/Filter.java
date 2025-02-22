@@ -1,5 +1,6 @@
 package com.damian.megacity.util.filters;
 
+import com.damian.megacity.exceptions.AdminException;
 import com.damian.megacity.exceptions.DriverException;
 import com.damian.megacity.exceptions.UserException;
 import com.damian.megacity.response.Response;
@@ -61,12 +62,28 @@ public class Filter implements jakarta.servlet.Filter {
 
         var message = switch (e) {
             case UserException ex -> {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                if (ex.getMessage().equals("User already exists!")) {
+                    response.setStatus(HttpServletResponse.SC_CONFLICT);
+                } else if (ex.getMessage().equals("User not found!")) {
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
                 yield "An Exception Occurred in the User Service : " + ex.getMessage();
             }
             case DriverException ex -> {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                if (ex.getMessage().equals("Driver already exists!")) {
+                    response.setStatus(HttpServletResponse.SC_CONFLICT);
+                } else if (ex.getMessage().equals("Driver not found!")) {
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
                 yield "An Exception Occurred in the Driver Service : " + ex.getMessage();
+            }
+            case AdminException ex -> {
+                if (ex.getMessage().equals("Admin not found!")) {
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                } else if (ex.getMessage().equals("An error occurred while authenticating the admin.")) {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                }
+                yield "An Exception Occurred in the Admin Service : " + ex.getMessage();
             }
             default -> {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -78,10 +95,6 @@ public class Filter implements jakarta.servlet.Filter {
     }
 
     public Response createAndBuildResponse(int status, String msg, Object data) {
-        return Response.builder()
-                .status(status)
-                .message(msg)
-                .data(data)
-                .build();
+        return Response.builder().status(status).message(msg).data(data).build();
     }
 }

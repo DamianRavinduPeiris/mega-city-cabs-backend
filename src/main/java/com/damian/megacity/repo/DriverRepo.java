@@ -3,7 +3,7 @@ package com.damian.megacity.repo;
 import com.damian.megacity.dto.DriverDTO;
 import com.damian.megacity.exceptions.DriverException;
 import com.damian.megacity.util.FactoryConfiguration;
-import com.damian.megacity.util.filters.mappers.Mapper;
+import com.damian.megacity.util.mappers.Mapper;
 import lombok.extern.java.Log;
 
 import java.sql.*;

@@ -3,7 +3,7 @@ package com.damian.megacity.repo;
 import com.damian.megacity.dto.UserDTO;
 import com.damian.megacity.exceptions.UserException;
 import com.damian.megacity.util.FactoryConfiguration;
-import com.damian.megacity.util.filters.mappers.Mapper;
+import com.damian.megacity.util.mappers.Mapper;
 import lombok.extern.java.Log;
 
 import java.sql.*;
