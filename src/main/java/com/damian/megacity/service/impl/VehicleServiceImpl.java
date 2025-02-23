@@ -2,7 +2,6 @@ package com.damian.megacity.service.impl;
 
 import com.damian.megacity.dto.VehicleDTO;
 import com.damian.megacity.repo.DAOService;
-import com.damian.megacity.repo.VehicleRepo;
 import com.damian.megacity.service.VehicleService;
 import lombok.extern.java.Log;
 
