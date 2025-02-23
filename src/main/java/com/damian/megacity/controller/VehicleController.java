@@ -54,7 +54,7 @@ public class VehicleController extends HttpServlet {
        var vehicleId = request.getParameter(VEHICLE_ID);
 
         if (vehicleId != null) {
-            VehicleDTO vehicle = cabService.search(vehicleId);
+            var vehicle = cabService.search(vehicleId);
             if (vehicle == null) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 response.getWriter().println(gson.toJson(createAndBuildResponse(
