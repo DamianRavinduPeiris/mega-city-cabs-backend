@@ -3,6 +3,7 @@ package com.damian.megacity.util.filters;
 import com.damian.megacity.exceptions.AdminException;
 import com.damian.megacity.exceptions.DriverException;
 import com.damian.megacity.exceptions.UserException;
+import com.damian.megacity.exceptions.VehicleException;
 import com.damian.megacity.response.Response;
 import com.google.gson.Gson;
 import jakarta.servlet.*;
@@ -84,6 +85,14 @@ public class Filter implements jakarta.servlet.Filter {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 }
                 yield "An Exception Occurred in the Admin Service : " + ex.getMessage();
+            }
+            case VehicleException ex -> {
+                if (ex.getMessage().equals("Vehicle Already exists!")) {
+                    response.setStatus(HttpServletResponse.SC_CONFLICT);
+                } else if (ex.getMessage().equals("Vehicle image is required!")) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
+                yield "An Exception Occurred in the Vehicle Service : " + ex.getMessage();
             }
             default -> {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

@@ -9,7 +9,6 @@ import lombok.extern.java.Log;
 import java.sql.SQLException;
 
 import static com.damian.megacity.service.impl.constants.AdminConstants.ADMIN_NOT_FOUND;
-import static com.damian.megacity.service.impl.constants.UserConstants.USER_NOT_FOUND;
 
 @Log
 public class AdminRepo implements AdminDAOService {

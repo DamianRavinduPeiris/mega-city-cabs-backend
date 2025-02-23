@@ -1,11 +1,11 @@
 package com.damian.megacity.util.mappers;
 
-import com.damian.megacity.dto.AdminDTO;
 import com.damian.megacity.dto.DriverDTO;
 import com.damian.megacity.dto.UserDTO;
-import com.damian.megacity.entity.Admin;
+import com.damian.megacity.dto.VehicleDTO;
 import com.damian.megacity.entity.Driver;
 import com.damian.megacity.entity.User;
+import com.damian.megacity.entity.Vehicle;
 
 public class Mapper {
     public static User toUser(UserDTO userDto) {
@@ -16,11 +16,7 @@ public class Mapper {
         return new Driver(driverDTO.driverId(), driverDTO.driverName(), driverDTO.driverPhone(), driverDTO.driverEmail());
     }
 
-    public static Admin toAdmin(AdminDTO adminDTO) {
-        return new Admin(adminDTO.id(), adminDTO.username(), adminDTO.password());
-    }
-
-    public static AdminDTO toAdminDTO(Admin admin) {
-        return new AdminDTO(admin.getId(), admin.getUsername(), admin.getPassword());
+    public static Vehicle toVehicle(VehicleDTO vehicleDTO) {
+        return new Vehicle(vehicleDTO.vehicleId(), vehicleDTO.vehicleName(), vehicleDTO.vehicleMakeYear(), vehicleDTO.vehicleNumberPlate(), vehicleDTO.vehicleImage());
     }
 }
