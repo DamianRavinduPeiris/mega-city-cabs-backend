@@ -12,39 +12,36 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Log
 public class VehicleRepo implements VehicleDAOService {
-    private Part filePart;
-
     @Override
     public VehicleDTO add(VehicleDTO vehicleDTO) {
         var vehicle = Mapper.toVehicle(vehicleDTO);
-        try (InputStream fileContent = this.filePart.getInputStream();
-             Connection conn = FactoryConfiguration.getFactoryConfiguration().getConnection();
+        try (Connection conn = FactoryConfiguration.getFactoryConfiguration().getConnection();
              PreparedStatement stmt = conn.prepareStatement(
-                     "INSERT INTO vehicle (vehicle_id, vehicle_name, vehicle_make_year, vehicle_number_plate, vehicle_image) VALUES (?, ?, ?, ?, ?)")) {
+                     "INSERT INTO vehicle (vehicle_id, vehicle_name, vehicle_make_year, vehicle_number_plate) VALUES (?, ?, ?, ?)")) {
 
             stmt.setString(1, vehicle.getVehicleId());
             stmt.setString(2, vehicle.getVehicleName());
             stmt.setString(3, vehicle.getVehicleMakeYear());
             stmt.setString(4, vehicle.getVehicleNumberPlate());
-            stmt.setBinaryStream(5, fileContent, (int) filePart.getSize());
 
             int rowsInserted = stmt.executeUpdate();
             if (rowsInserted > 0) {
-                log.info("Vehicle uploaded successfully!");
+                log.info("Vehicle added successfully!");
                 return vehicleDTO;
             } else {
-                log.info("Failed to upload vehicle.");
-                throw new VehicleException("Failed to insert vehicle.");
+                throw new VehicleException("Vehicle already exists!");
             }
 
         } catch (Exception e) {
-            log.severe("An error occurred while uploading vehicle: " + e.getMessage());
-            throw new VehicleException("Vehicle already exists or insertion failed!");
+            log.severe("An error occurred while adding vehicle: " + e.getMessage());
+            throw new VehicleException("Insertion failed!");
         }
+
     }
 
     @Override
@@ -106,7 +103,7 @@ public class VehicleRepo implements VehicleDAOService {
                             rs.getString("vehicle_name"),
                             rs.getString("vehicle_make_year"),
                             rs.getString("vehicle_number_plate"),
-                            rs.getBytes("vehicle_image")
+                            Base64.getEncoder().encodeToString(rs.getBytes("vehicle_image"))
                     );
                 } else {
                     throw new VehicleException("Vehicle not found!");
@@ -133,7 +130,7 @@ public class VehicleRepo implements VehicleDAOService {
                         rs.getString("vehicle_name"),
                         rs.getString("vehicle_make_year"),
                         rs.getString("vehicle_number_plate"),
-                        rs.getBytes("vehicle_image")
+                        Base64.getEncoder().encodeToString(rs.getBytes("vehicle_image"))
                 ));
             }
             return vehicles;
@@ -144,8 +141,33 @@ public class VehicleRepo implements VehicleDAOService {
         }
     }
 
+
     @Override
-    public void addImageDetails(Part filePart) {
-        this.filePart = filePart;
+    public VehicleDTO addVehicleWithImages(VehicleDTO vehicleDTO, Part imageData) {
+        var vehicle = Mapper.toVehicle(vehicleDTO);
+        try (InputStream fileContent = imageData.getInputStream();
+             Connection conn = FactoryConfiguration.getFactoryConfiguration().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(
+                     "INSERT INTO vehicle (vehicle_id, vehicle_name, vehicle_make_year, vehicle_number_plate, vehicle_image) VALUES (?, ?, ?, ?, ?)")) {
+
+            stmt.setString(1, vehicle.getVehicleId());
+            stmt.setString(2, vehicle.getVehicleName());
+            stmt.setString(3, vehicle.getVehicleMakeYear());
+            stmt.setString(4, vehicle.getVehicleNumberPlate());
+            stmt.setBinaryStream(5, fileContent, (int) imageData.getSize());
+
+            int rowsInserted = stmt.executeUpdate();
+            if (rowsInserted > 0) {
+                log.info("Vehicle uploaded successfully!");
+                return vehicleDTO;
+            } else {
+                log.info("Failed to upload vehicle.");
+                throw new VehicleException("Failed to insert vehicle.");
+            }
+
+        } catch (Exception e) {
+            log.severe("An error occurred while uploading vehicle: " + e.getMessage());
+            throw new VehicleException("Vehicle already exists or insertion failed!");
+        }
     }
 }

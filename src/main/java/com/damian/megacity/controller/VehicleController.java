@@ -8,6 +8,7 @@ import com.damian.megacity.repo.VehicleDAOService;
 import com.damian.megacity.repo.VehicleRepo;
 import com.damian.megacity.response.Response;
 import com.damian.megacity.service.CabService;
+import com.damian.megacity.service.VehicleService;
 import com.damian.megacity.service.impl.VehicleServiceImpl;
 
 import com.google.gson.Gson;
@@ -26,13 +27,14 @@ public class VehicleController extends HttpServlet {
 
     private final Gson gson = new Gson();
     private final VehicleDAOService vehicleDAOService = new VehicleRepo();
-    private final CabService<VehicleDTO> cabService = new VehicleServiceImpl(vehicleDAOService);
+    private final VehicleService vehicleService = new VehicleServiceImpl(vehicleDAOService, vehicleDAOService);
+    private final CabService<VehicleDTO> cabService = new VehicleServiceImpl(vehicleDAOService, vehicleDAOService);
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         var filePart = request.getPart(VEHICLE_IMAGE);
-        vehicleDAOService.addImageDetails(filePart);
         var vehicleDTO = new VehicleDTO(request.getParameter(VEHICLE_ID),
                 request.getParameter(VEHICLE_NAME),
                 request.getParameter(VEHICLE_MAKE_YEAR),
@@ -46,12 +48,12 @@ public class VehicleController extends HttpServlet {
         response.getWriter().println(gson.toJson(createAndBuildResponse(
                 HttpServletResponse.SC_CREATED,
                 VEHICLE_CREATED,
-                cabService.add(vehicleDTO))));
+                vehicleService.addVehicleWithImages(vehicleDTO, filePart))));
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-       var vehicleId = request.getParameter(VEHICLE_ID);
+        var vehicleId = request.getParameter(VEHICLE_ID);
 
         if (vehicleId != null) {
             var vehicle = cabService.search(vehicleId);
