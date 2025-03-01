@@ -12,5 +12,5 @@ public class Vehicle {
     private String vehicleName;
     private String vehicleMakeYear;
     private String vehicleNumberPlate;
-    private byte[] vehicleImage;
+    private String vehicleImage;
 }
