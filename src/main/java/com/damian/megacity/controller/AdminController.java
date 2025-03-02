@@ -12,7 +12,7 @@ import lombok.extern.java.Log;
 
 import java.io.IOException;
 
-import static com.damian.megacity.service.impl.constants.AdminConstants.*;
+import static com.damian.megacity.service.constants.AdminConstants.*;
 
 @WebServlet(name = ADMIN_CONTROLLER, value = ADMIN_ENDPOINT)
 @Log

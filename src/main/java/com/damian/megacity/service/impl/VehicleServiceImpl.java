@@ -1,8 +1,8 @@
 package com.damian.megacity.service.impl;
 
 import com.damian.megacity.dto.VehicleDTO;
-import com.damian.megacity.repo.DAOService;
-import com.damian.megacity.repo.VehicleDAOService;
+import com.damian.megacity.repo.service.DAOService;
+import com.damian.megacity.repo.service.VehicleDAOService;
 import com.damian.megacity.service.VehicleService;
 import jakarta.servlet.http.Part;
 import lombok.extern.java.Log;

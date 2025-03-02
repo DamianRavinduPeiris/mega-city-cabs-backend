@@ -1,4 +1,4 @@
-package com.damian.megacity.repo;
+package com.damian.megacity.repo.service;
 
 import java.util.List;
 

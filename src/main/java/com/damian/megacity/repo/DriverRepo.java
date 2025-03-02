@@ -2,6 +2,7 @@ package com.damian.megacity.repo;
 
 import com.damian.megacity.dto.DriverDTO;
 import com.damian.megacity.exceptions.DriverException;
+import com.damian.megacity.repo.service.DriverDAOService;
 import com.damian.megacity.util.FactoryConfiguration;
 import com.damian.megacity.util.mappers.Mapper;
 import lombok.extern.java.Log;
@@ -10,7 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.damian.megacity.service.impl.constants.DriverConstants.DRIVER_NOT_FOUND;
+import static com.damian.megacity.service.constants.DriverConstants.DRIVER_NOT_FOUND;
 
 @Log
 public class DriverRepo implements DriverDAOService {

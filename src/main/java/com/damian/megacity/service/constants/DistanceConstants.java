@@ -1,4 +1,4 @@
-package com.damian.megacity.service.impl.constants;
+package com.damian.megacity.service.constants;
 
 public class DistanceConstants {
     public final static String DISTANCE_CONTROLLER = "distanceController";

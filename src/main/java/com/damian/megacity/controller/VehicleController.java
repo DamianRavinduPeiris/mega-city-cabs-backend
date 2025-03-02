@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.damian.megacity.dto.VehicleDTO;
 import com.damian.megacity.exceptions.VehicleException;
-import com.damian.megacity.repo.VehicleDAOService;
+import com.damian.megacity.repo.service.VehicleDAOService;
 import com.damian.megacity.repo.VehicleRepo;
 import com.damian.megacity.response.Response;
 import com.damian.megacity.service.CabService;
@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import static com.damian.megacity.service.impl.constants.VehicleConstants.*;
+import static com.damian.megacity.service.constants.VehicleConstants.*;
 
 @WebServlet(name = VEHICLE_CONTROLLER, urlPatterns = VEHICLE_ENDPOINT)
 @MultipartConfig(maxFileSize = 10 * 1024 * 1024)

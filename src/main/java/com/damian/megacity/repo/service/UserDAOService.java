@@ -1,4 +1,4 @@
-package com.damian.megacity.repo;
+package com.damian.megacity.repo.service;
 
 import com.damian.megacity.dto.UserDTO;
 

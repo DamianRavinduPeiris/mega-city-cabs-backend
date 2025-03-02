@@ -1,4 +1,4 @@
-package com.damian.megacity.service.impl.constants;
+package com.damian.megacity.service.constants;
 
 public class AdminConstants {
     public final static String ADMIN_CONTROLLER = "adminController";

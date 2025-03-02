@@ -2,6 +2,7 @@ package com.damian.megacity.repo;
 
 import com.damian.megacity.dto.VehicleDTO;
 import com.damian.megacity.exceptions.VehicleException;
+import com.damian.megacity.repo.service.VehicleDAOService;
 import com.damian.megacity.util.FactoryConfiguration;
 import com.damian.megacity.util.mappers.Mapper;
 import jakarta.servlet.http.Part;

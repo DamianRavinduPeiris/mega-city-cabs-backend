@@ -1,4 +1,4 @@
-package com.damian.megacity.service.impl.constants;
+package com.damian.megacity.service.constants;
 
 public class DriverConstants {
     public final static String DRIVER_CONTROLLER = "driverController";
