@@ -12,7 +12,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import lombok.extern.java.Log;
 
-import static com.damian.megacity.service.impl.constants.UserConstants.*;
+import static com.damian.megacity.service.constants.UserConstants.*;
 
 
 @WebServlet(name = USER_CONTROLLER, value = USER_ENDPOINT)

@@ -2,6 +2,7 @@ package com.damian.megacity.repo;
 
 import com.damian.megacity.dto.UserDTO;
 import com.damian.megacity.exceptions.UserException;
+import com.damian.megacity.repo.service.UserDAOService;
 import com.damian.megacity.util.FactoryConfiguration;
 import com.damian.megacity.util.mappers.Mapper;
 import lombok.extern.java.Log;
@@ -10,10 +11,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.damian.megacity.service.impl.constants.UserConstants.USER_NOT_FOUND;
+import static com.damian.megacity.service.constants.UserConstants.USER_NOT_FOUND;
 
 @Log
-public class UserRepo implements UserDAOService{
+public class UserRepo implements UserDAOService {
 
     @Override
     public UserDTO add(UserDTO userDTO) {

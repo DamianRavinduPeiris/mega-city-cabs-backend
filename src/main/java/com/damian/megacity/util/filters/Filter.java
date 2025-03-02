@@ -93,7 +93,11 @@ public class Filter implements jakarta.servlet.Filter {
             }
             case DistanceException ex -> {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                yield "An Exception Occurred in the Distance Service : " + ex.getMessage();
+                yield "An Exception Occurred in the Distance computing Service : " + ex.getMessage();
+            }
+            case RideBookingException ex -> {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                yield "An Exception Occurred in the Booking Service : " + ex.getMessage();
             }
             default -> {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

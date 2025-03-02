@@ -1,4 +1,4 @@
-package com.damian.megacity.service.impl.constants;
+package com.damian.megacity.service.constants;
 
 public class VehicleConstants {
     public final static String VEHICLE_CONTROLLER = "vehicleController";

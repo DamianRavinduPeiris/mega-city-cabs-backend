@@ -3,12 +3,13 @@ package com.damian.megacity.repo;
 import com.damian.megacity.dto.AdminDTO;
 import com.damian.megacity.exceptions.AdminException;
 import com.damian.megacity.exceptions.UserException;
+import com.damian.megacity.repo.service.AdminDAOService;
 import com.damian.megacity.util.FactoryConfiguration;
 import lombok.extern.java.Log;
 
 import java.sql.SQLException;
 
-import static com.damian.megacity.service.impl.constants.AdminConstants.ADMIN_NOT_FOUND;
+import static com.damian.megacity.service.constants.AdminConstants.ADMIN_NOT_FOUND;
 
 @Log
 public class AdminRepo implements AdminDAOService {

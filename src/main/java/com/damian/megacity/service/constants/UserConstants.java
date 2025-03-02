@@ -1,4 +1,4 @@
-package com.damian.megacity.service.impl.constants;
+package com.damian.megacity.service.constants;
 
 public class UserConstants {
     public final static String USER_CONTROLLER = "userController";

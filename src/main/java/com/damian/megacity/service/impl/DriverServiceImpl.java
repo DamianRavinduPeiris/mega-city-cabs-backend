@@ -1,7 +1,7 @@
 package com.damian.megacity.service.impl;
 
 import com.damian.megacity.dto.DriverDTO;
-import com.damian.megacity.repo.DAOService;
+import com.damian.megacity.repo.service.DAOService;
 import com.damian.megacity.repo.DriverRepo;
 import com.damian.megacity.service.DriverService;
 

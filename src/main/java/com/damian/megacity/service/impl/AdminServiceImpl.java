@@ -1,7 +1,7 @@
 package com.damian.megacity.service.impl;
 
 import com.damian.megacity.exceptions.AdminException;
-import com.damian.megacity.repo.AdminDAOService;
+import com.damian.megacity.repo.service.AdminDAOService;
 import com.damian.megacity.repo.AdminRepo;
 import com.damian.megacity.service.AdminService;
 import com.damian.megacity.util.EncryptionUtil;

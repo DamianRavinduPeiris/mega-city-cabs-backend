@@ -15,7 +15,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import static com.damian.megacity.service.impl.constants.DistanceConstants.*;
+import static com.damian.megacity.service.constants.DistanceConstants.*;
 
 @WebServlet(name = DISTANCE_CONTROLLER, value = DISTANCE_ENDPOINT)
 @Log

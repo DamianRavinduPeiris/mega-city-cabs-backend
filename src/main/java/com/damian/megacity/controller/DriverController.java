@@ -12,7 +12,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import lombok.extern.java.Log;
 
-import static com.damian.megacity.service.impl.constants.DriverConstants.*;
+import static com.damian.megacity.service.constants.DriverConstants.*;
 
 
 @WebServlet(name = DRIVER_CONTROLLER, value = DRIVER_ENDPOINT)
