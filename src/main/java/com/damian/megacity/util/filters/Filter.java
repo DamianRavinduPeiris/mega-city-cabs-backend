@@ -1,9 +1,6 @@
 package com.damian.megacity.util.filters;
 
-import com.damian.megacity.exceptions.AdminException;
-import com.damian.megacity.exceptions.DriverException;
-import com.damian.megacity.exceptions.UserException;
-import com.damian.megacity.exceptions.VehicleException;
+import com.damian.megacity.exceptions.*;
 import com.damian.megacity.response.Response;
 import com.google.gson.Gson;
 import jakarta.servlet.*;
@@ -93,6 +90,10 @@ public class Filter implements jakarta.servlet.Filter {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }
                 yield "An Exception Occurred in the Vehicle Service : " + ex.getMessage();
+            }
+            case DistanceException ex -> {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                yield "An Exception Occurred in the Distance Service : " + ex.getMessage();
             }
             default -> {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
