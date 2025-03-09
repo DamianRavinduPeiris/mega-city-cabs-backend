@@ -9,6 +9,7 @@ public class EmailConstants {
     public static final String MAIL_SMTP_PORT = "mail.smtp.port";
     public static final String GMAIL_SMTP_PORT = System.getenv("MAIL_SMTP_PORT");
     public static final String EMAIL_SENDING_FAILED = "Email sending failed!";
+    public static final String EMAIL_ADDRESS_NOT_FOUND = "User Email not found!";
     public static final String BOOKING_SUBJECT = "Booking Confirmation.";
     public static final String FROM_EMAIL = System.getenv("FROM_EMAIL");
     public static final String APP_PASSWORD = System.getenv("APP_PASSWORD");
