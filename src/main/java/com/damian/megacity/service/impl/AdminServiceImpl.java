@@ -4,7 +4,7 @@ import com.damian.megacity.exceptions.AdminException;
 import com.damian.megacity.repo.service.AdminDAOService;
 import com.damian.megacity.repo.AdminRepo;
 import com.damian.megacity.service.AdminService;
-import com.damian.megacity.util.EncryptionUtil;
+import com.damian.megacity.util.encryption.EncryptionUtil;
 import lombok.extern.java.Log;
 
 @Log

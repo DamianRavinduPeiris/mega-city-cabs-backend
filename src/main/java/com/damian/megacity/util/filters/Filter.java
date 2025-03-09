@@ -99,6 +99,10 @@ public class Filter implements jakarta.servlet.Filter {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 yield "An Exception Occurred in the Booking Service : " + ex.getMessage();
             }
+            case EmailException ex -> {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                yield "An Exception Occurred in the Email Service : " + ex.getMessage();
+            }
             default -> {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 yield "Internal Server Error";
