@@ -13,7 +13,8 @@ public record RideBookingDTO(
         String pickUpCity,
         String destinationCity,
         String duration,
-        String date
+        String date,
+        double price
 
 ) implements Serializable {
 
