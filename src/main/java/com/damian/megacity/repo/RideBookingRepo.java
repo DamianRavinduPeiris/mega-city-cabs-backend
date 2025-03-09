@@ -20,7 +20,7 @@ public class RideBookingRepo implements RideBookingDAOService<RideBookingDTO> {
         var rideBookingEntity = Mapper.toRideBooking(rideBookingDTO);
         try (Connection conn = FactoryConfiguration.getFactoryConfiguration().getConnection();
              PreparedStatement stmt = conn.prepareStatement(
-                     "INSERT INTO ridebooking (orderId, userId, userName, driverId, vehicle_id, vehicleName, vehicleNumberPlate, pickUpCity, destinationCity, duration, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+                     "INSERT INTO ridebooking (orderId, userId, userName, driverId, vehicle_id, vehicleName, vehicleNumberPlate, pickUpCity, destinationCity, duration, date,price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)")
         ) {
             stmt.setString(1, rideBookingEntity.getOrderId());
             stmt.setString(2, rideBookingEntity.getUserId());
@@ -33,6 +33,7 @@ public class RideBookingRepo implements RideBookingDAOService<RideBookingDTO> {
             stmt.setString(9, rideBookingEntity.getDestinationCity());
             stmt.setString(10, rideBookingEntity.getDuration());
             stmt.setString(11, rideBookingEntity.getDate());
+            stmt.setDouble(12, rideBookingEntity.getPrice());
 
             int rowsInserted = stmt.executeUpdate();
             if (rowsInserted > 0) {
@@ -65,7 +66,8 @@ public class RideBookingRepo implements RideBookingDAOService<RideBookingDTO> {
                         rs.getString("pickUpCity"),
                         rs.getString("destinationCity"),
                         rs.getString("duration"),
-                        rs.getString("date")
+                        rs.getString("date"),
+                        rs.getDouble("price")
                 );
                 rideBookings.add(Mapper.toRideBookingDTO(rideBooking));
             }

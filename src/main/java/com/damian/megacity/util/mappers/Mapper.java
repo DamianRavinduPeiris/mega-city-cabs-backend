@@ -34,7 +34,8 @@ public class Mapper {
                 rideBookingDTO.pickUpCity(),
                 rideBookingDTO.destinationCity(),
                 rideBookingDTO.duration(),
-                rideBookingDTO.date()
+                rideBookingDTO.date(),
+                rideBookingDTO.price()
         );
     }
 
@@ -50,7 +51,8 @@ public class Mapper {
                 rideBooking.getPickUpCity(),
                 rideBooking.getDestinationCity(),
                 rideBooking.getDuration(),
-                rideBooking.getDate()
+                rideBooking.getDate(),
+                rideBooking.getPrice()
         );
     }
 }

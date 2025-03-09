@@ -17,4 +17,5 @@ public class RideBooking {
     private String destinationCity;
     private String duration;
     private String date;
+    private double price;
 }
