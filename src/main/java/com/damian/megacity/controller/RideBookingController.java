@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 import static com.damian.megacity.service.constants.RideBookingConstants.*;
+import static com.damian.megacity.service.constants.UserConstants.USER_EMAIL;
 
 @WebServlet(name = RIDE_BOOKING_CONTROLLER, value = RIDE_BOOKING_ENDPOINT)
 public class RideBookingController extends HttpServlet {
@@ -24,11 +25,12 @@ public class RideBookingController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         try {
+            var userEmail = request.getParameter(USER_EMAIL);
             var rideBookingDTO = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), RideBookingDTO.class);
 
             gson.toJson(createAndBuildResponse(HttpServletResponse.SC_CREATED,
                     BOOKING_ADDED_SUCCESSFULLY,
-                    rideBookingService.add(rideBookingDTO)), response.getWriter());
+                    rideBookingService.add(rideBookingDTO, userEmail)), response.getWriter());
 
         } catch (IOException e) {
             throw new RideBookingException(AN_ERROR_OCCURRED_WHILE_ADDING_BOOKING);

@@ -1,4 +1,4 @@
-package com.damian.megacity.util;
+package com.damian.megacity.util.encryption;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;

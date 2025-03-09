@@ -4,6 +4,7 @@ public class UserConstants {
     public final static String USER_CONTROLLER = "userController";
     public final static String USER_ENDPOINT = "/api/v1/user";
     public final static String USER_ID = "userId";
+    public final static String USER_EMAIL = "userEmail";
     public final static String USER_CREATED = "User Successfully created!";
     public final static String USER_UPDATED = "User Successfully Updated!";
     public final static String USER_DELETED = "User Successfully Deleted!";
