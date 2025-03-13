@@ -27,7 +27,7 @@ public class RideBookingControllerTest {
     private static final String ORDER_ID_KEY = "data.orderId";
     private static final String DATA_KEY = "data";
 
-    private static final String TEST_USER_ID = "c6e33a40-de30-4828-b897-966d30d70f7c";
+    private static final String TEST_USER_ID = "d8bcd381-00f6-48ed-9db3-2cbfd7398e95";
     private static final String TEST_DRIVER_ID = "1ae16e31-21c0-4768-bca8-9669a7f20b73";
     private static final String TEST_VEHICLE_ID = "28dbf03a-cfc7-4f10-aa1a-fa46a59e2222";
     private static final String TEST_VEHICLE_MODEL = "Wagon R";
