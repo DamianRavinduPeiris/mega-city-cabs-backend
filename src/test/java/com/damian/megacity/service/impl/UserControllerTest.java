@@ -25,26 +25,33 @@ public class UserControllerTest {
     private static final String BASE_URI = "http://localhost:8080/megacity/api/v1";
     private static final String BASE_PATH = "user";
     private static final Gson GSON = new Gson();
-    private static final ExtentReports extent = new ExtentReports();
+    private static final ExtentReports EXTENT = new ExtentReports();
 
     private static final String MESSAGE_KEY = "message";
     private static final String USER_ID_KEY = "data.userId";
 
-    private static final String TEST_USER_ID = UUID.randomUUID().toString();
+    private static final String REPORT_FILE = "User-Controller-Test-Report.html";
+    private static final String USER_NAME = "John Doe";
+    private static final String UPDATED_USER_NAME = "John Updated";
+    private static final String USER_EMAIL = "john.doe@example.com";
+    private static final String UPDATED_USER_EMAIL = "john.updated@example.com";
+    private static final String USER_PROFILE = "profile.jpg";
+    private static final String UPDATED_USER_PROFILE = "updated.jpg";
 
+    private static final String TEST_USER_ID = UUID.randomUUID().toString();
     private static ExtentTest test;
 
     @BeforeAll
     public static void setup() {
         RestAssured.baseURI = BASE_URI;
-        ExtentSparkReporter sparkReporter = new ExtentSparkReporter("test-report.html");
-        extent.attachReporter(sparkReporter);
+        var sparkReporter = new ExtentSparkReporter(REPORT_FILE);
+        EXTENT.attachReporter(sparkReporter);
     }
 
     @AfterAll
     public static void tearDown() {
         log.info("Finalizing and flushing report...");
-        extent.flush();
+        EXTENT.flush();
     }
 
     private static void logTestResult(ExtentTest test, boolean isSuccess, String successMessage, String failureMessage) {
@@ -58,9 +65,9 @@ public class UserControllerTest {
     @Test
     @Order(1)
     public void testCreateUser() {
-        test = extent.createTest("testCreateUser");
+        test = EXTENT.createTest("testCreateUser");
 
-        var user = new UserDTO(TEST_USER_ID, "John Doe", "john.doe@example.com", "profile.jpg");
+        var user = new UserDTO(TEST_USER_ID, USER_NAME, USER_EMAIL, USER_PROFILE);
 
         var response = given()
                 .contentType(ContentType.JSON)
@@ -72,16 +79,17 @@ public class UserControllerTest {
                 .body(MESSAGE_KEY, equalTo(UserConstants.USER_CREATED))
                 .extract().response();
 
-        boolean userCreated = response.jsonPath().getString(USER_ID_KEY) != null;
-        logTestResult(test, userCreated, "User created successfully with ID: " + response.jsonPath().getString(USER_ID_KEY), "Failed to create user");
+        var createdUserId = response.jsonPath().getString(USER_ID_KEY);
+        boolean userCreated = createdUserId != null;
+        logTestResult(test, userCreated, "User created successfully with ID: " + createdUserId, "Failed to create user");
 
-        assertNotNull(response.jsonPath().getString(USER_ID_KEY));
+        assertNotNull(createdUserId);
     }
 
     @Test
     @Order(2)
     public void testGetUser() {
-        test = extent.createTest("testGetUser");
+        test = EXTENT.createTest("testGetUser");
 
         var response = given()
                 .queryParam(UserConstants.USER_ID, TEST_USER_ID)
@@ -100,9 +108,9 @@ public class UserControllerTest {
     @Test
     @Order(3)
     public void testUpdateUser() {
-        test = extent.createTest("testUpdateUser");
+        test = EXTENT.createTest("testUpdateUser");
 
-        var updatedUser = new UserDTO(TEST_USER_ID, "John Updated", "john.updated@example.com", "updated.jpg");
+        var updatedUser = new UserDTO(TEST_USER_ID, UPDATED_USER_NAME, UPDATED_USER_EMAIL, UPDATED_USER_PROFILE);
 
         var response = given()
                 .contentType(ContentType.JSON)
@@ -112,17 +120,17 @@ public class UserControllerTest {
                 .then()
                 .statusCode(200)
                 .body(MESSAGE_KEY, equalTo(UserConstants.USER_UPDATED))
-                .body("data.name", equalTo("John Updated"))
+                .body("data.name", equalTo(UPDATED_USER_NAME))
                 .extract().response();
 
-        boolean userUpdated = response.jsonPath().getString("data.name").equals("John Updated");
-        logTestResult(test, userUpdated, "User updated successfully to: John Updated", "Failed to update user");
+        boolean userUpdated = UPDATED_USER_NAME.equals(response.jsonPath().getString("data.name"));
+        logTestResult(test, userUpdated, "User updated successfully to: " + UPDATED_USER_NAME, "Failed to update user");
     }
 
     @Test
     @Order(4)
     public void testDeleteUser() {
-        test = extent.createTest("testDeleteUser");
+        test = EXTENT.createTest("testDeleteUser");
 
         var response = given()
                 .queryParam(UserConstants.USER_ID, TEST_USER_ID)
