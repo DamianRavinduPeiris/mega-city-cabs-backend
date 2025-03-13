@@ -9,9 +9,9 @@ import java.sql.SQLException;
 
 @Log
 public class FactoryConfiguration {
-    private static final String URL = "jdbc:mysql://localhost:3306/megacity";
-    private static final String USER = "root";
-    private static final String PASSWORD = "1234";
+    private static final String URL = System.getenv("DB_URL");
+    private static final String USER = System.getenv("DB_USERNAME");
+    private static final String PASSWORD = System.getenv("DB_PASSWORD");
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static FactoryConfiguration factoryConfiguration;
     private Connection connection;
