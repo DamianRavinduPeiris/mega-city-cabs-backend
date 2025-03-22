@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.stream.Collectors;
 
 import com.damian.megacity.dto.DriverDTO;
-import com.damian.megacity.exceptions.DriverException;
 import com.damian.megacity.response.Response;
 import com.damian.megacity.service.CabService;
 import com.damian.megacity.service.impl.DriverServiceImpl;
@@ -67,7 +66,7 @@ public class DriverController extends HttpServlet {
     }
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response)  {
         try {
             var driverId = request.getParameter(DRIVER_ID);
 

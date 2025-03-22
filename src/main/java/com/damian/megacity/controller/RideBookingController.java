@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.java.Log;
 
-import java.io.IOException;
 import java.util.stream.Collectors;
 
 import static com.damian.megacity.service.constants.RideBookingConstants.*;

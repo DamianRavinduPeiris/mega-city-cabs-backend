@@ -53,7 +53,7 @@ public class UserController extends HttpServlet {
     }
 
     @Override
-    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) {
         try {
             var userId = request.getParameter(USER_ID);
             if (userId != null) {
@@ -70,7 +70,7 @@ public class UserController extends HttpServlet {
     }
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response){
         try {
             var userId = request.getParameter(USER_ID);
 

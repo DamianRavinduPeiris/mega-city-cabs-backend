@@ -13,7 +13,6 @@ public class DistanceConstants {
     public static final String API_KEY_MISSING_MSG = "API key is missing.";
     public static final String API_CALL_ERROR_MSG = "An error occurred while calling Google Maps API: %s";
     public static final String DRIVER_WITH_DRIVER_ID = "Driver with driverId : %s";
-    public static final String DRIVER_NOT_FOUND_MSG = "Driver with driverId %s not found.";
 
     private DistanceConstants() {
     }

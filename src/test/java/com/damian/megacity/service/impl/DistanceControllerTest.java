@@ -48,11 +48,11 @@ class DistanceControllerTest {
         extent.flush();
     }
 
-    private static void logTestResult(ExtentTest test, boolean isSuccess, String successMessage, String failureMessage) {
+    private static void logTestResult(ExtentTest test, boolean isSuccess) {
         if (isSuccess) {
-            test.pass(successMessage);
+            test.pass("Distance calculated successfully!");
         } else {
-            test.fail(failureMessage);
+            test.fail("Failed to calculate distance!");
         }
     }
 
@@ -77,6 +77,6 @@ class DistanceControllerTest {
 
         var isSuccess = !Objects.equals(response.jsonPath().getString(STATUS_KEY), STATUS_NOT_FOUND);
 
-        logTestResult(test, isSuccess, "Distance calculated successfully!", "Failed to calculate distance!");
+        logTestResult(test, isSuccess);
     }
 }
