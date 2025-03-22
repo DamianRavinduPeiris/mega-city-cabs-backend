@@ -11,7 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.damian.megacity.service.constants.UserConstants.USER_NOT_FOUND;
+import static com.damian.megacity.service.constants.UserConstants.*;
 
 @Log
 public class UserRepo implements UserDAOService {
@@ -54,10 +54,10 @@ public class UserRepo implements UserDAOService {
 
             var rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
-                log.info("User with userId " + user.getUserId() + " updated successfully.");
+                log.info(USER_WITH_USER_ID + user.getUserId() + " updated successfully.");
                 return userDTO;
             } else {
-                log.warning("User with userId " + user.getUserId() + " not found.");
+                log.warning(USER_WITH_USER_ID + user.getUserId() + NOT_FOUND);
                 throw new UserException(USER_NOT_FOUND);
             }
 
@@ -78,9 +78,9 @@ public class UserRepo implements UserDAOService {
 
             var rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
-                log.info("User with userId " + userId + " deleted successfully.");
+                log.info(USER_WITH_USER_ID + userId + " deleted successfully.");
             } else {
-                log.warning("User with userId " + userId + " not found.");
+                log.warning(USER_WITH_USER_ID + userId + NOT_FOUND);
                 throw new UserException(USER_NOT_FOUND);
             }
 
@@ -93,7 +93,7 @@ public class UserRepo implements UserDAOService {
     @Override
     public UserDTO search(String idOrEmail) {
         var query = "SELECT userId, name, email, picture FROM User WHERE userId = ? OR email = ?";
-        UserDTO user = null;
+        UserDTO user;
 
         try (var connection = FactoryConfiguration.getFactoryConfiguration().getConnection();
              var preparedStatement = connection.prepareStatement(query)) {

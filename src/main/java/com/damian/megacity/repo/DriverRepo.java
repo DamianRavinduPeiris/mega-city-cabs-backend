@@ -11,6 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.damian.megacity.service.constants.DistanceConstants.DRIVER_WITH_DRIVER_ID;
 import static com.damian.megacity.service.constants.DriverConstants.DRIVER_NOT_FOUND;
 
 @Log
@@ -54,10 +55,10 @@ public class DriverRepo implements DriverDAOService {
 
             var rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
-                log.info("Driver with driverId " + driver.getDriverId() + " updated successfully.");
+                log.info(DRIVER_WITH_DRIVER_ID + driver.getDriverId() + " updated successfully.");
                 return driverDTO;
             } else {
-                log.warning("Driver with driverId " + driver.getDriverId() + " not found.");
+                log.warning(DRIVER_WITH_DRIVER_ID + driver.getDriverId() + DRIVER_NOT_FOUND);
                 throw new DriverException(DRIVER_NOT_FOUND);
             }
 
@@ -93,7 +94,7 @@ public class DriverRepo implements DriverDAOService {
     @Override
     public DriverDTO search(String idOrEmail) {
         var query = "SELECT driverId, driverName, driverPhone, driverEmail FROM Driver WHERE driverId = ? OR driverEmail = ?";
-        DriverDTO driver = null;
+        DriverDTO driver;
 
         try (var connection = FactoryConfiguration.getFactoryConfiguration().getConnection();
              var preparedStatement = connection.prepareStatement(query)) {

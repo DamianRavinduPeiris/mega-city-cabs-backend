@@ -13,20 +13,41 @@ import java.util.concurrent.Executors;
 
 import static com.damian.megacity.service.constants.EmailConstants.*;
 
-public class EmailServiceImpl implements EmailService<RideBookingDTO> {
+public class EmailServiceImpl implements EmailService{
     private static final ExecutorService executor = Executors.newFixedThreadPool(5);
+    private static final String EMAIL_BODY_TEMPLATE = """
+        Dear %s,
+        
+        Your booking has been confirmed. Thank you for choosing MegaCity Cabs.
+        
+        Ride Details:
+        - Order ID: %s
+        - Driver ID: %s
+        - Vehicle: %s (%s)
+        - From: %s
+        - To: %s
+        - Date: %s
+        - Duration: %s
+        - Price: %.2f
+        
+        
+        
+        Best Regards,
+        MegaCity Cabs Team.
+        """;
 
 
     @Override
     public void sendEmail(RideBookingDTO rideBookingDTO, String toEmail) {
         executor.submit(() -> {
             var props = new Properties();
-            props.put(MAIl_SMTP_AUTH, TRUE);
+            props.put(SMTP_AUTH, TRUE);
             props.put(MAIL_SMTP_STARTTLS_ENABLE, TRUE);
             props.put(MAIL_SMTP_HOST, GMAIL_SMTP_HOST);
             props.put(MAIL_SMTP_PORT, GMAIL_SMTP_PORT);
 
             var session = Session.getInstance(props, new Authenticator() {
+                @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(FROM_EMAIL, APP_PASSWORD);
                 }
@@ -40,26 +61,7 @@ public class EmailServiceImpl implements EmailService<RideBookingDTO> {
                 message.setSubject(BOOKING_SUBJECT);
 
                 var emailBody = String.format(
-                        """
-                                Dear %s,
-                                
-                                Your booking has been confirmed. Thank you for choosing MegaCity Cabs.
-                                
-                                Ride Details:
-                                - Order ID: %s
-                                - Driver ID: %s
-                                - Vehicle: %s (%s)
-                                - From: %s
-                                - To: %s
-                                - Date: %s
-                                - Duration: %s
-                                - Price: %.2f
-                                
-                                
-                                
-                                Best Regards,
-                                MegaCity Cabs Team.
-                                """,
+                       EMAIL_BODY_TEMPLATE,
                         rideBookingDTO.userName(),
                         rideBookingDTO.orderId(),
                         rideBookingDTO.driverId(),

@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log
-public class DistanceControllerTest {
+class DistanceControllerTest {
     private static final String BASE_URI = "http://localhost:8080/megacity/api/v1";
     private static final String BASE_PATH = "distance?origins=Moratuwa&destinations=Galle";
     private static final String REPORT_PATH = "Distance-Controller-Test-Report.html";
@@ -36,14 +36,14 @@ public class DistanceControllerTest {
     private static final ExtentReports extent = new ExtentReports();
 
     @BeforeAll
-    public static void setup() {
+    static void setup() {
         RestAssured.baseURI = BASE_URI;
         var sparkReporter = new ExtentSparkReporter(REPORT_PATH);
         extent.attachReporter(sparkReporter);
     }
 
     @AfterAll
-    public static void tearDown() {
+    static void tearDown() {
         log.info("Finalizing and flushing report...");
         extent.flush();
     }
@@ -58,7 +58,7 @@ public class DistanceControllerTest {
 
     @Test
     @Order(1)
-    public void testDistanceCalculations() {
+    void testDistanceCalculations() {
         var test = extent.createTest("testDistanceCalculations");
 
         var response = given()

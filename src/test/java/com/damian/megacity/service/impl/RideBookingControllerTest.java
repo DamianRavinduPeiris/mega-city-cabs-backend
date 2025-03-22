@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log
-public class RideBookingControllerTest {
+class RideBookingControllerTest {
     private static final String BASE_URI = "http://localhost:8080/megacity/api/v1";
     private static final String BASE_PATH = "bookings?userEmail=drpeiris3@gmail.com";
     private static final String REPORT_PATH = "Booking-Controller-Test-Report.html";
@@ -44,14 +44,14 @@ public class RideBookingControllerTest {
     private static final String TEST_BOOKING_ID = UUID.randomUUID().toString();
 
     @BeforeAll
-    public static void setup() {
+    static void setup() {
         RestAssured.baseURI = BASE_URI;
         var sparkReporter = new ExtentSparkReporter(REPORT_PATH);
         extent.attachReporter(sparkReporter);
     }
 
     @AfterAll
-    public static void tearDown() {
+    static void tearDown() {
         log.info("Finalizing and flushing report...");
         extent.flush();
     }
@@ -66,11 +66,11 @@ public class RideBookingControllerTest {
 
     @Test
     @Order(1)
-    public void testCreateBooking() {
+    void testCreateBooking() {
         var test = extent.createTest("testCreateBooking");
 
         var bookingDetails = new RideBookingDTO(
-                TEST_BOOKING_ID,
+                TEST_BOOKING_ID+UUID.randomUUID(),
                 TEST_USER_ID,
                 TEST_NAME,
                 TEST_DRIVER_ID,
@@ -102,7 +102,7 @@ public class RideBookingControllerTest {
 
     @Test
     @Order(2)
-    public void testGetAllBookings() {
+    void testGetAllBookings() {
         var test = extent.createTest("testGetAllBookings");
 
         var response = given()

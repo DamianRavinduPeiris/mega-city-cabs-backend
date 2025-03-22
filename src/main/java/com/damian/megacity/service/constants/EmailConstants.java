@@ -1,7 +1,7 @@
 package com.damian.megacity.service.constants;
 
 public class EmailConstants {
-    public static final String MAIl_SMTP_AUTH = "mail.smtp.auth";
+    public static final String SMTP_AUTH = "mail.smtp.auth";
     public static final String TRUE = "true";
     public static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
     public static final String MAIL_SMTP_HOST = "mail.smtp.host";

@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import static com.damian.megacity.service.constants.VehicleConstants.VEHICLE_NOT_FOUND;
+
 @Log
 public class VehicleRepo implements VehicleDAOService {
     @Override
@@ -62,7 +64,7 @@ public class VehicleRepo implements VehicleDAOService {
                 log.info("Vehicle updated successfully!");
                 return vehicleDTO;
             } else {
-                throw new VehicleException("Vehicle not found!");
+                throw new VehicleException(VEHICLE_NOT_FOUND);
             }
 
         } catch (Exception e) {
@@ -82,7 +84,7 @@ public class VehicleRepo implements VehicleDAOService {
             if (rowsDeleted > 0) {
                 log.info("Vehicle deleted successfully!");
             } else {
-                throw new VehicleException("Vehicle not found!");
+                throw new VehicleException(VEHICLE_NOT_FOUND);
             }
 
         } catch (Exception e) {
@@ -107,7 +109,7 @@ public class VehicleRepo implements VehicleDAOService {
                             Base64.getEncoder().encodeToString(rs.getBytes("vehicle_image"))
                     );
                 } else {
-                    throw new VehicleException("Vehicle not found!");
+                    throw new VehicleException(VEHICLE_NOT_FOUND);
                 }
             }
 

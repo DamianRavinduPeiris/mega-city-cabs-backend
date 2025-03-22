@@ -10,6 +10,10 @@ import com.damian.megacity.entity.User;
 import com.damian.megacity.entity.Vehicle;
 
 public class Mapper {
+    private Mapper() {
+
+    }
+
     public static User toUser(UserDTO userDto) {
         return new User(userDto.userId(), userDto.name(), userDto.email(), userDto.picture());
     }

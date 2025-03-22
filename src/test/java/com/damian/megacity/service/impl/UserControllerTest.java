@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log
-public class UserControllerTest {
+class UserControllerTest {
 
     private static final String BASE_URI = "http://localhost:8080/megacity/api/v1";
     private static final String BASE_PATH = "user";
@@ -42,14 +42,14 @@ public class UserControllerTest {
     private static ExtentTest test;
 
     @BeforeAll
-    public static void setup() {
+    static void setup() {
         RestAssured.baseURI = BASE_URI;
         var sparkReporter = new ExtentSparkReporter(REPORT_FILE);
         EXTENT.attachReporter(sparkReporter);
     }
 
     @AfterAll
-    public static void tearDown() {
+    static void tearDown() {
         log.info("Finalizing and flushing report...");
         EXTENT.flush();
     }
@@ -64,7 +64,7 @@ public class UserControllerTest {
 
     @Test
     @Order(1)
-    public void testCreateUser() {
+    void testCreateUser() {
         test = EXTENT.createTest("testCreateUser");
 
         var user = new UserDTO(TEST_USER_ID, USER_NAME, USER_EMAIL, USER_PROFILE);
@@ -88,7 +88,7 @@ public class UserControllerTest {
 
     @Test
     @Order(2)
-    public void testGetUser() {
+    void testGetUser() {
         test = EXTENT.createTest("testGetUser");
 
         var response = given()
@@ -107,7 +107,7 @@ public class UserControllerTest {
 
     @Test
     @Order(3)
-    public void testUpdateUser() {
+    void testUpdateUser() {
         test = EXTENT.createTest("testUpdateUser");
 
         var updatedUser = new UserDTO(TEST_USER_ID, UPDATED_USER_NAME, UPDATED_USER_EMAIL, UPDATED_USER_PROFILE);
@@ -129,7 +129,7 @@ public class UserControllerTest {
 
     @Test
     @Order(4)
-    public void testDeleteUser() {
+    void testDeleteUser() {
         test = EXTENT.createTest("testDeleteUser");
 
         var response = given()

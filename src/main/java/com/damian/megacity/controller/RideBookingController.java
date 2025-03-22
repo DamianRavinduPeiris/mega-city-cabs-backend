@@ -1,7 +1,6 @@
 package com.damian.megacity.controller;
 
 import com.damian.megacity.dto.RideBookingDTO;
-import com.damian.megacity.exceptions.RideBookingException;
 import com.damian.megacity.response.Response;
 import com.damian.megacity.service.RideBookingService;
 import com.damian.megacity.service.impl.RideBookingServiceImpl;
@@ -10,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.java.Log;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -18,9 +18,10 @@ import static com.damian.megacity.service.constants.RideBookingConstants.*;
 import static com.damian.megacity.service.constants.UserConstants.USER_EMAIL;
 
 @WebServlet(name = RIDE_BOOKING_CONTROLLER, value = RIDE_BOOKING_ENDPOINT)
+@Log
 public class RideBookingController extends HttpServlet {
-    private final Gson gson = new Gson();
-    private final RideBookingService<RideBookingDTO> rideBookingService = new RideBookingServiceImpl();
+    private final transient Gson gson = new Gson();
+    private final transient RideBookingService<RideBookingDTO> rideBookingService = new RideBookingServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
@@ -32,8 +33,8 @@ public class RideBookingController extends HttpServlet {
                     BOOKING_ADDED_SUCCESSFULLY,
                     rideBookingService.add(rideBookingDTO, userEmail)), response.getWriter());
 
-        } catch (IOException e) {
-            throw new RideBookingException(AN_ERROR_OCCURRED_WHILE_ADDING_BOOKING);
+        } catch (Exception e) {
+            log.warning(e.getMessage());
         }
 
     }
@@ -44,8 +45,8 @@ public class RideBookingController extends HttpServlet {
             gson.toJson(createAndBuildResponse(HttpServletResponse.SC_CREATED,
                     BOOKINGS_RETRIEVED_SUCCESSFULLY,
                     rideBookingService.getAll()), response.getWriter());
-        } catch (IOException e) {
-            throw new RideBookingException(AN_ERROR_OCCURRED_WHILE_RETRIEVING_BOOKINGS);
+        } catch (Exception e) {
+            log.warning(e.getMessage());
         }
     }
 
@@ -57,5 +58,4 @@ public class RideBookingController extends HttpServlet {
                 .data(data)
                 .build();
     }
-
 }

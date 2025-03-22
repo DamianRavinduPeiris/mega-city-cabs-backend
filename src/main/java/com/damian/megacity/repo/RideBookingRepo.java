@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RideBookingRepo implements RideBookingDAOService<RideBookingDTO> {
+public class RideBookingRepo implements RideBookingDAOService {
     @Override
     public RideBookingDTO add(RideBookingDTO rideBookingDTO) {
         var rideBookingEntity = Mapper.toRideBooking(rideBookingDTO);

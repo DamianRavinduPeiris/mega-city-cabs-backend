@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @Log
 @WebFilter(urlPatterns = {"/*"})
-public class Filter implements jakarta.servlet.Filter {
+public class CustomWebFilter implements jakarta.servlet.Filter {
     private static final String ALLOW_ORIGIN = "Access-Control-Allow-Origin";
     private static final String ALLOW_METHODS = "Access-Control-Allow-Methods";
     private static final String ALLOW_HEADERS = "Access-Control-Allow-Headers";
@@ -23,7 +23,7 @@ public class Filter implements jakarta.servlet.Filter {
     private static final String APPLICATION_JSON = "application/json";
     private final Gson gson = new Gson();
 
-    public Filter() {
+    public CustomWebFilter() {
         log.info("Initializing the Filter...");
     }
 

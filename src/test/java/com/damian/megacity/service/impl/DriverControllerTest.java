@@ -21,7 +21,7 @@ import java.util.UUID;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Log
-public class DriverControllerTest {
+class DriverControllerTest {
 
     private static final String BASE_URI = "http://localhost:8080/megacity/api/v1";
     private static final String BASE_PATH = "driver";
@@ -43,14 +43,14 @@ public class DriverControllerTest {
     private static ExtentTest test;
 
     @BeforeAll
-    public static void setup() {
+    static void setup() {
         RestAssured.baseURI = BASE_URI;
         var sparkReporter = new ExtentSparkReporter(REPORT_PATH);
         extent.attachReporter(sparkReporter);
     }
 
     @AfterAll
-    public static void tearDown() {
+    static void tearDown() {
         log.info("Finalizing and flushing report...");
         extent.flush();
     }
@@ -65,7 +65,7 @@ public class DriverControllerTest {
 
     @Test
     @Order(1)
-    public void testCreateDriver() {
+    void testCreateDriver() {
         test = extent.createTest("Create Driver");
 
         var driver = new DriverDTO(TEST_DRIVER_ID, TEST_DRIVER_NAME, TEST_DRIVER_PHONE, TEST_DRIVER_EMAIL);
@@ -89,7 +89,7 @@ public class DriverControllerTest {
 
     @Test
     @Order(2)
-    public void testGetDriver() {
+    void testGetDriver() {
         test = extent.createTest("Get Driver");
 
         var response = given()
@@ -109,7 +109,7 @@ public class DriverControllerTest {
 
     @Test
     @Order(3)
-    public void testUpdateDriver() {
+    void testUpdateDriver() {
         test = extent.createTest("Update Driver");
 
         var updatedDriver = new DriverDTO(TEST_DRIVER_ID, UPDATED_DRIVER_NAME, TEST_DRIVER_PHONE, TEST_DRIVER_EMAIL);
@@ -132,7 +132,7 @@ public class DriverControllerTest {
 
     @Test
     @Order(4)
-    public void testDeleteDriver() {
+    void testDeleteDriver() {
         test = extent.createTest("Delete Driver");
 
         var response = given()

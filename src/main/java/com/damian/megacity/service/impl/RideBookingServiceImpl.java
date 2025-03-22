@@ -12,8 +12,8 @@ import java.util.List;
 import static com.damian.megacity.service.constants.EmailConstants.EMAIL_ADDRESS_NOT_FOUND;
 
 public class RideBookingServiceImpl implements RideBookingService<RideBookingDTO> {
-    private final RideBookingDAOService<RideBookingDTO> rideBookingDAOService = new RideBookingRepo();
-    private final EmailService<RideBookingDTO> emailService = new EmailServiceImpl();
+    private final RideBookingDAOService rideBookingDAOService = new RideBookingRepo();
+    private final EmailService emailService = new EmailServiceImpl();
 
     @Override
     public RideBookingDTO add(RideBookingDTO rideBookingDTO, String userEmail) {

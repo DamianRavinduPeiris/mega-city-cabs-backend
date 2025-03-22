@@ -10,27 +10,31 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.java.Log;
 
-import java.io.IOException;
 
 import static com.damian.megacity.service.constants.AdminConstants.*;
 
 @WebServlet(name = ADMIN_CONTROLLER, value = ADMIN_ENDPOINT)
 @Log
 public class AdminController extends HttpServlet {
-    private final Gson gson = new Gson();
-    private final AdminService adminService = new AdminServiceImpl();
+    private final transient Gson gson = new Gson();
+    private final transient AdminService adminService = new AdminServiceImpl();
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response){
         var username = request.getParameter(ADMIN_USERNAME);
         var password = request.getParameter(ADMIN_PASSWORD);
 
         if (username != null && password != null) {
             var authStatus = adminService.searchByUsernameAndAuthenticate(username, password);
-            response.getWriter().println(gson.toJson(createAndBuildResponse(
-                    authStatus ? HttpServletResponse.SC_OK : HttpServletResponse.SC_UNAUTHORIZED,
-                    authStatus ? ADMIN_AUTHENTICATED : WRONG_CREDENTIALS,
-                    authStatus)));
+            try {
+                response.getWriter().println(gson.toJson(createAndBuildResponse(
+                        authStatus ? HttpServletResponse.SC_OK : HttpServletResponse.SC_UNAUTHORIZED,
+                        authStatus ? ADMIN_AUTHENTICATED : WRONG_CREDENTIALS,
+                        authStatus)));
+            }catch (Exception e){
+                log.warning(e.getMessage());
+            }
+
         }
     }
 

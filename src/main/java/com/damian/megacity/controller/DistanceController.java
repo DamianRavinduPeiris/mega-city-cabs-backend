@@ -21,50 +21,43 @@ import static com.damian.megacity.service.constants.DistanceConstants.*;
 @Log
 public class DistanceController extends HttpServlet {
 
-    private final Gson gson = new Gson();
+    private final transient Gson gson = new Gson();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         var origins = request.getParameter(ORIGINS_PARAM);
         var destinations = request.getParameter(DESTINATIONS_PARAM);
         var apiKey = System.getenv(GOOGLE_API_KEY_ENV);
 
         if (apiKey == null) {
             log.warning(API_KEY_MISSING_MSG);
-            throw new DistanceException(API_KEY_MISSING_MSG);
         }
 
         var requestUrl = String.format(API_URL_TEMPLATE, origins, destinations, apiKey);
+        try {
+            var jsonResponse = callGoogleMapsAPI(requestUrl);
 
-        var jsonResponse = callGoogleMapsAPI(requestUrl);
-
-        response.getWriter().println(gson.toJson(createAndBuildResponse(
-                HttpServletResponse.SC_OK,
-                "Distance calculated successfully!",
-                gson.fromJson(jsonResponse, Object.class)
-        )));
+            response.getWriter().println(gson.toJson(createAndBuildResponse(HttpServletResponse.SC_OK, "Distance calculated successfully!", gson.fromJson(jsonResponse, Object.class))));
+        } catch (Exception e) {
+            log.warning(API_KEY_MISSING_MSG);
+        }
     }
 
     private String callGoogleMapsAPI(String requestUrl) throws IOException {
         try (var client = HttpClient.newHttpClient()) {
-            var request = HttpRequest.newBuilder()
-                    .uri(URI.create(requestUrl))
-                    .build();
+            var request = HttpRequest.newBuilder().uri(URI.create(requestUrl)).build();
 
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
             log.info("Response: " + response.body());
             return response.body();
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             log.warning(String.format(API_CALL_ERROR_MSG, e.getMessage()));
             throw new DistanceException(String.format(API_CALL_ERROR_MSG, e.getMessage()));
         }
     }
 
     public Response createAndBuildResponse(int status, String msg, Object data) {
-        return Response.builder()
-                .status(status)
-                .message(msg)
-                .data(data)
-                .build();
+        return Response.builder().status(status).message(msg).data(data).build();
     }
 }
