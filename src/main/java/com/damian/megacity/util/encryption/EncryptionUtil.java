@@ -8,7 +8,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 @Log
 public class EncryptionUtil {
-    private static final String ALGORITHM = "AES256";
+    private static final String ALGORITHM = "AES";
     private static final byte[] STATIC_KEY = "12345678901234567890123456789012".getBytes();
 
     private EncryptionUtil() {
