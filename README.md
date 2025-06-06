@@ -1,5 +1,8 @@
 # `Megacity Cabs`
 
+![image](https://github.com/user-attachments/assets/fbd5651c-cc68-4abb-ab1e-9d4ba31ff787)
+
+
 - This repository contains the backend implementation for the `CIS6003` `Advanced Programming module. ` 
 - The `frontend` for this project can be found in [here](https://github.com/DamianRavinduPeiris/mega-city-cabs-frontend).
 - `Automation test reports` are located in `src/test/reports`
